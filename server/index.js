@@ -35,15 +35,13 @@ app.get("/api/fortune/", (req, res) => {
 })
 
 app.post("/api/visitorSongs/", (req, res) => {
-    let songInput = document.getElementById('songInput');
-    let artistInput = document.getElementById('artistInput');
     let newSong = document.createElement('li');
     newSong.textContent = `${songInput.value} by ${artistInput.value}`;
     // document.getElementById('songList').appendChild(newSong)
   res.status(200).send(newSong)
 })
 
-app.get("/api/fortune/", (req, res) => {
+app.get("/api/naruto/", (req, res) => {
   const phrase = 'You can do it, dattebayo!!!'
 
     res.status(200).send(phrase)

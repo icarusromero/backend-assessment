@@ -45,9 +45,14 @@
     </div>
     <script>
       document.getElementById("songSubmitBtn").onclick = function () {
-        axios.post("http://localhost:4000/api/visitorSongs/", {})
+        axios.post("http://localhost:4000/api/visitorSongs/", body)
         .then(function(response) {
-          const data = response.data
+          let songInput = document.getElementById('songInput')
+          let artistInput = document.getElementById('artistInput')
+          const body = {
+            song: songInput.value,
+            artist: artistInput.value
+          }
           document.getElementById('songList').appendChild(data)
         })
       }
