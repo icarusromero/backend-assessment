@@ -30,8 +30,8 @@
             const data = response.data;
             let fortunetext = document.getElementById("fortunetext");
             fortunetext.textContent = data
-          })
-      }
+          });
+      };
     </script>
 
     <div>
@@ -40,38 +40,70 @@
       <input type="text" id="artistInput" placeholder="Artist">
       <button type="submit" id="songSubmitBtn">Submit</button>
       <ul id="songList">
-        <li>testing</li>
+        
       </ul>
     </div>
     <script>
       document.getElementById("songSubmitBtn").onclick = function () {
+        let songInput = document.getElementById('songInput')
+        let artistInput = document.getElementById('artistInput')
+        const body = {
+          song: songInput.value,
+          artist: artistInput.value
+        };
+        console.log(body);
         axios.post("http://localhost:4000/api/visitorSongs/", body)
         .then(function(response) {
-          let songInput = document.getElementById('songInput')
-          let artistInput = document.getElementById('artistInput')
-          const body = {
-            song: songInput.value,
-            artist: artistInput.value
-          }
-          document.getElementById('songList').appendChild(data)
-        })
-      }
+          list = response.data
+          console.log(list)
+          songList = document.getElementById('songList')
+          songList.innerHTML = ''
+          list.forEach(item => {
+            const {song, artist} = item
+            let listItem = document.createElement('li')
+            listItem.innerHTML = `${song} by ${artist}`
+            songList.appendChild(listItem)
+          });
+          songInput.value = ''
+          artistInput.value = ''
+        });
+      };
     </script>
     <div>
       <p>Click Him:</p>
      <br>
-     <button id="naruto"><img src="images/dattebayo.jpg"></button>
+     <button id="encouragement"><img src="images/dattebayo.jpg" id="naruto"></button>
      <p id="speak"></p>
     </div>
-     <script>
-       document.getElementById("naruto").onclick = function () {
+    <script>
+      document.getElementById("encouragement").onclick = function () {
         axios.get("http://localhost:4000/api/naruto/")
         .then(function(response) {
           const data = response.data;
           let speak = document.getElementById('speak');
           speak.textContent = data
-       })
-      }
+       });
+      };
     </script>
+
+    <div>
+      <button id="music-btn">
+        <img src="images/jukebox.png" id="jukebox">
+        <div id="music-div"></div>
+      </button>
+      <script>
+        document.getElementById("music-btn").onclick = function () {
+          axios.get("http://localhost:4000/api/jukebox/")
+          .then(function(response) {
+            const theSong = response.data
+            let musicDiv = document.getElementById('music-div')
+            musicDiv.innerHTML = ''
+            musicDiv.innerHTML = `<audio autoplay>
+              <source src="music/${theSong}.mp3" type="audio/mpeg">
+              </audio>`
+          });
+        };
+      </script>
+    </div>
   </body>
 </html>

@@ -34,17 +34,33 @@ app.get("/api/fortune/", (req, res) => {
     res.status(200).send(randomFortune)
 })
 
+let songs = []
+let globalId = 1
+
 app.post("/api/visitorSongs/", (req, res) => {
-    let newSong = document.createElement('li');
-    newSong.textContent = `${songInput.value} by ${artistInput.value}`;
-    // document.getElementById('songList').appendChild(newSong)
-  res.status(200).send(newSong)
+  let {song, artist} = req.body
+  let newSong = {
+    id: globalId,
+    song,
+    artist
+  }
+  songs.push(newSong)
+  globalId++
+  res.status(200).send(songs)
 })
 
 app.get("/api/naruto/", (req, res) => {
   const phrase = 'You can do it, dattebayo!!!'
 
     res.status(200).send(phrase)
+})
+
+app.get("/api/jukebox", (req, res) => {
+  const playlist = ['lil-ceasar-ban', 'sun-picnic', 'underwater-organ']
+  let randomIndex = Math.floor(Math.random() * playlist.length);
+  let randomsong = playlist[randomIndex];
+
+  res.status(200).send(randomsong)
 })
 
 app.listen(4000, () => console.log("Server running on 4000"));
